@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Валентинка</title>
+  <!-- Романтический шрифт с поддержкой кириллицы -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* Базовая сброска и фон */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: "Marck Script", "Segoe UI", system-ui, -apple-system,
+        BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #ffe6f2 0%, #ffc2e0 35%, #ff9ac4 70%, #ff7aa8 100%);
+      color: #4a154b;
+      overflow: hidden;
+    }
+
+    .valentine-container {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+       height: 600px;
+      padding: 24px 20px 32px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 18px 45px rgba(255, 79, 152, 0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      overflow: hidden;
+    }
+
+  .question-image {
+    max-width: 90%;
+    width: auto;
+    height: auto;
+    margin-top: -35px;
+    margin-bottom: -35px;
+    filter: drop-shadow(0 1px 2px rgba(52, 46, 49, 0.7));
+    border-radius: 12px; /* Если нужно скругление */
+    }
+
+  /* Адаптивность */
+@media (max-width: 480px) {
+  .question-image {
+    max-width: 85%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+}
+
+    .hero-animation {
+      max-width: 220px;
+      width: 70%;
+      border-radius: 24px;
+      filter: drop-shadow(0 10px 24px rgba(255, 105, 180, 0.7));
+      margin-top: -40px;
+      /* Плавное "растворение" видео сверху и снизу */
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 1) 18%,
+        rgba(0, 0, 0, 1) 82%,
+        transparent 100%
+      );
+      mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 1) 18%,
+        rgba(0, 0, 0, 1) 82%,
+        transparent 100%
+      );
+    }
+
+    .buttons {
+      margin-top: -15px;
+      display: flex;
+      gap: 25px;
+      justify-content: center;
+      position: relative;
+      width: 80%;
+    }
+
+    button {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      border: none;
+      font-size: 0; /* Скрываем текст визуально, оставляя его в разметке */
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease; /* движения по экрану у "НЕТ" будут мгновенными */
+      outline: none;
+      white-space: nowrap;
+      user-select: none;
+      background-color: transparent;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      z-index: 1;
+      /* Розовая тень по контуру PNG, без квадратного бокса */
+      filter: drop-shadow(0 4px 12px rgba(244, 175, 202, 0.7));
+    }
+
+    button:active {
+      transform: scale(0.96) translateY(1px);
+    }
+
+    .btn-yes {
+      color: #ffffff;
+      background-image: url("yes.png");
+      transform-origin: center center;
+      animation: heartbeatButton 1.9s ease-in-out infinite;
+    }
+
+    .btn-yes:hover {
+      filter: drop-shadow(0 12px 26px rgba(244, 175, 202, 0.9));
+    }
+
+    .btn-no {
+      color: #ffffff;
+      position: relative; /* станет fixed при побеге */
+      transform-origin: center center;
+      background-image: url("no.png");
+    }
+
+    /* Анимация сердечек при нажатии "ДА" */
+    .hearts-container {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      overflow: visible;
+    }
+
+    .heart-float {
+      position: absolute;
+      font-size: 18px;
+      color: #ff2e75;
+      opacity: 0;
+      animation: floatUp 1.8s ease-out forwards;
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.6);
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-140px) scale(1.4);
+      }
+    }
+
+    /* Пульсация кнопки "ДА" как сердечный ритм: два удара и пауза */
+    @keyframes heartbeatButton {
+      0% {
+        transform: scale(1);
+      }
+      8% {
+        transform: scale(1.18);
+      }
+      18% {
+        transform: scale(1);
+      }
+      26% {
+        transform: scale(1.16);
+      }
+      36% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* Финальный экран после нажатия "ДА" */
+    .final-screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      background: transparent;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .final-heart {
+      width: 390px; /* или любой нужный размер */
+      height: auto;
+      filter: drop-shadow(0 0 18px rgba(255, 105, 180, 0.8));
+      margin-bottom: -20px;
+      margin-top: -70px;
+      margin-left: -45px;
+    }
+
+
+    .final-image {
+      max-width: 310px;
+      width: 80%;
+      filter: drop-shadow(0 2px 4px rgba(244, 175, 202, 0.95));
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 480px) {
+      .valentine-container {
+        max-width: 92%;
+        padding: 20px 16px 26px;
+      }
+
+      .question {
+        font-size: 1.9rem;
+      }
+
+      button {
+        width: 140px;
+        height: 140px;
+      }
+
+      .buttons {
+        gap: 12px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .valentine-container {
+        max-width: 520px;
+        padding: 28px 28px 36px;
+      }
+
+      .question {
+        font-size: 2.5rem;
+      }
+
+      .hero-animation {
+        width: 100%; /* или нужная ширина */
+        clip-path: inset(10% 0 0 0); /* Обрезает сверху 20% */
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <main class="valentine-container">
+    <!-- Плавающие сердечки -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Анимация вместо сердечка -->
+    <video
+      class="hero-animation"
+      id="heroAnimation"
+      src="q.webm"
+      autoplay
+      loop
+      muted
+      playsinline
+    ></video>
+
+    <!-- Текст вопроса -->
+    <img src="my.png" alt="Будешь моей валентинкой?" class="question-image" id="questionImage" />
+
+    <!-- Кнопки -->
+    <div class="buttons" id="buttonsContainer">
+      <button class="btn-yes" id="yesButton">ДА</button>
+      <button class="btn-no" id="noButton">НЕТ</button>
+    </div>
+
+<div class="final-screen hidden" id="finalScreen">
+  <img src="love.webp" alt="Я люблю тебя" class="final-heart" />
+  <img src="ilu.png" alt="Я люблю тебя" class="final-image" />
+</div>
+  </main>
+
+  <script>
+    // Получаем элементы
+    const yesButton = document.getElementById("yesButton");
+    const noButton = document.getElementById("noButton");
+    const questionText = document.getElementById("questionText");
+    const heartsContainer = document.getElementById("heartsContainer");
+    const buttonsContainer = document.getElementById("buttonsContainer");
+    const heroAnimation = document.getElementById("heroAnimation");
+    const finalScreen = document.getElementById("finalScreen");
+
+    const ESCAPE_DISTANCE = 220; // Расстояние, на котором кнопка "НЕТ" убегает
+
+    /**
+     * Создаёт одно плавающее сердечко в случайной горизонтальной позиции
+     */
+    function createFloatingHeart() {
+    
+
+      // случайная позиция по горизонтали внутри контейнера
+      const randomLeft = 10 + Math.random() * 80; // в процентах
+      heart.style.left = randomLeft + "%";
+
+      // начальное вертикальное смещение ближе к низу картинки
+      heart.style.bottom = "4%";
+
+      heartsContainer.appendChild(heart);
+
+      // удалить сердечко после завершения анимации
+      heart.addEventListener("animationend", () => {
+        heart.remove();
+      });
+    }
+
+    /**
+     * Запускает "фейерверк" сердечек
+     */
+    function triggerHeartsBurst() {
+      for (let i = 0; i < 14; i++) {
+        setTimeout(createFloatingHeart, i * 90);
+      }
+    }
+
+    /**
+     * Обработчик нажатия на кнопку "ДА"
+     * - Запускаем анимацию сердечек
+     * - Пульсация основного сердечка
+     * - Меняем текст и скрываем кнопки
+     */
+    yesButton.addEventListener("click", () => {
+      triggerHeartsBurst();
+
+      // Скрываем вопрос и кнопки
+      buttonsContainer.classList.add("hidden");
+      questionImage.classList.add("hidden");
+
+      // Скрываем исходную анимацию-видео
+      if (heroAnimation) {
+        heroAnimation.classList.add("hidden");
+      }
+
+      // Показываем финальный экран с сердцем и ilu.png
+      if (finalScreen) {
+        finalScreen.classList.remove("hidden");
+      }
+    });
+
+    /**
+     * Перемещает кнопку "НЕТ" в случайную позицию, оставаясь в пределах окна
+     * @param {number} pointerX - x-координата указателя (мышь или палец)
+     * @param {number} pointerY - y-координата указателя
+     */
+    function moveNoButtonAway(pointerX, pointerY) {
+      const rect = noButton.getBoundingClientRect();
+      const btnWidth = rect.width;
+      const btnHeight = rect.height;
+
+      // Изменяем позиционирование на fixed при первом "побеге",
+      // чтобы координаты всегда были в системе окна и кнопка не вылетала из контейнера
+      if (getComputedStyle(noButton).position !== "fixed") {
+        noButton.style.position = "fixed";
+        noButton.style.left = rect.left + "px";
+        noButton.style.top = rect.top + "px";
+      }
+
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+
+      // Границы, внутри которых можно располагать кнопку
+      const padding = 8;
+      const minX = padding;
+      const maxX = viewportWidth - btnWidth - padding;
+      const minY = padding;
+      const maxY = viewportHeight - btnHeight - padding;
+
+      // Ищем новую позицию случайно, но обязательно дальше радиуса убегания
+      const maxAttempts = 30;
+      let newLeft = rect.left;
+      let newTop = rect.top;
+
+      for (let i = 0; i < maxAttempts; i++) {
+        const candidateLeft =
+          Math.random() * (maxX - minX) + minX;
+        const candidateTop =
+          Math.random() * (maxY - minY) + minY;
+
+        const candidateCenterX = candidateLeft + btnWidth / 2;
+        const candidateCenterY = candidateTop + btnHeight / 2;
+
+        const distance = Math.hypot(
+          candidateCenterX - pointerX,
+          candidateCenterY - pointerY
+        );
+
+        if (distance > ESCAPE_DISTANCE * 1.1) {
+          newLeft = candidateLeft;
+          newTop = candidateTop;
+          break;
+        }
+      }
+
+      noButton.style.left = newLeft + "px";
+      noButton.style.top = newTop + "px";
+      noButton.style.transform = "translate(0, 0)";
+    }
+
+    /**
+     * Проверяет, нужно ли убегать кнопке "НЕТ"
+     * @param {number} pointerX
+     * @param {number} pointerY
+     */
+    function handlePointerMove(pointerX, pointerY) {
+      const rect = noButton.getBoundingClientRect();
+      const btnCenterX = rect.left + rect.width / 2;
+      const btnCenterY = rect.top + rect.height / 2;
+
+      const distance = Math.hypot(pointerX - btnCenterX, pointerY - btnCenterY);
+
+      if (distance < ESCAPE_DISTANCE) {
+        moveNoButtonAway(pointerX, pointerY);
+      }
+    }
+
+    // Обработка движения мыши
+    document.addEventListener("mousemove", (event) => {
+      handlePointerMove(event.clientX, event.clientY);
+    });
+
+    // Обработка касаний для мобильных устройств
+    document.addEventListener(
+      "touchmove",
+      (event) => {
+        if (event.touches && event.touches.length > 0) {
+          const touch = event.touches[0];
+          handlePointerMove(touch.clientX, touch.clientY);
+        }
+      },
+      { passive: true }
+    );
+
+    // Дополнительная защита: если курсор прямо заходит на кнопку или щёлкает по ней,
+    // немедленно убегаем и блокируем действие
+    noButton.addEventListener("mouseenter", (event) => {
+      moveNoButtonAway(event.clientX, event.clientY);
+    });
+
+    noButton.addEventListener("mousedown", (event) => {
+      event.preventDefault();
+      moveNoButtonAway(event.clientX, event.clientY);
+    });
+
+    // На случай управления с клавиатуры
+    noButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      const rect = noButton.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      moveNoButtonAway(centerX, centerY);
+    });
+  </script>
+</body>
+</html>
+
