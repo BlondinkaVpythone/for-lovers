@@ -45,7 +45,7 @@
     .btn-no { color: #fff; position: relative; transform-origin: center center; background-image: url("no.png"); }
 
     .hearts-container { pointer-events: none; position: absolute; inset: 0; overflow: visible; }
-    .heart-float { position: absolute; font-size: 18px; color: #ff2e75; opacity: 0; animation: floatUp 1.8s ease-out forwards; }
+    .heart-float { position: absolute; font-size: 18px; color: #ff1100; opacity: 0; animation: floatUp 1.8s ease-out forwards; }
 
     @keyframes floatUp {
       0% { opacity: 0; transform: translateY(10px) scale(0.6); }
@@ -99,23 +99,42 @@
 
     const ESCAPE_DISTANCE = 220; // минимальное расстояние от указателя до центра НЕТ, чтобы не "дотянулись"
 
-    // Создаёт плавающее сердечко
-    function createFloatingHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart-float";
-      heart.textContent = "❤";
-      const randomLeft = 10 + Math.random() * 80;
-      heart.style.left = randomLeft + "%";
-      heart.style.bottom = "4%";
-      heartsContainer.appendChild(heart);
-      heart.addEventListener("animationend", () => heart.remove());
-    }
+   // Создаёт плавающее сердечко по случайным координатам по всей белой карточке
+function createFloatingHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart-float";
+  heart.textContent = "❤";
 
-    function triggerHeartsBurst() {
-      for (let i = 0; i < 14; i++) {
-        setTimeout(createFloatingHeart, i * 90);
-      }
-    }
+  // случайный размер (px)
+  const size = 14 + Math.floor(Math.random() * 28); // от ~14px до ~41px
+  heart.style.fontSize = size + "px";
+
+  // размещаем по всему контейнеру .valentine-container (heartsContainer имеет inset:0)
+  // оставим небольшой отступ по краям, чтобы не обрезать
+  const leftPct = 3 + Math.random() * 94; // 3% ... 97%
+  const topPct  = 3 + Math.random() * 94; // 3% ... 97%
+  heart.style.left = leftPct + "%";
+  heart.style.top  = topPct + "%";
+
+  // чуть-чуть варьируем длительность и старт (чтобы выглядело естественнее)
+  const dur = 1400 + Math.random() * 1400; // 1400–2800 ms
+  const delay = Math.random() * 300; // 0–300 ms
+  heart.style.animationDuration = dur + "ms";
+  heart.style.animationDelay = delay + "ms";
+
+  heartsContainer.appendChild(heart);
+
+  // удаляем после окончания анимации
+  heart.addEventListener("animationend", () => heart.remove());
+}
+
+// Взрыв сердечек (можно оставить количество и интервал как хотите)
+function triggerHeartsBurst() {
+  for (let i = 0; i < 14; i++) {
+    setTimeout(createFloatingHeart, i * 90);
+  }
+}
+
 
     yesButton.addEventListener("click", () => {
       triggerHeartsBurst();
