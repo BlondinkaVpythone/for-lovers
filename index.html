@@ -60,6 +60,14 @@
     filter: drop-shadow(0 1px 2px rgba(52, 46, 49, 0.7));
     border-radius: 12px; /* Если нужно скругление */
     }
+
+  /* Адаптивность */
+@media (max-width: 480px) {
+  .question-image {
+    max-width: 85%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
 }
 
     .hero-animation {
@@ -230,17 +238,6 @@
         padding: 20px 16px 26px;
       }
 
-      .question-image {
-        max-width: 105%;
-        margin-top: 5px;
-        margin-bottom: 5px;
-      }
-
-      .hero-animation {
-        margin-top: 15px !important;
-        width: 70%;
-      }
-
       .question {
         font-size: 1.9rem;
       }
@@ -266,8 +263,7 @@
       }
 
       .hero-animation {
-        width:  max-width: 240px; /* ← ЗАМЕНИТЕ 100% на 240px */
-        width: 70%; /*/* или нужная ширина */
+        width: 100%; /* или нужная ширина */
         clip-path: inset(10% 0 0 0); /* Обрезает сверху 20% */
       }
     }
@@ -486,10 +482,4 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
 
